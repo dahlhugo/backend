@@ -63,6 +63,7 @@ function main() {
         app.use((0, cors_1.default)(options));
         app.use(express_1.default.json());
         //add all routes
+        app.get('/', (req, res) => { res.send('Hello World!'); });
         app.use('/api/user', user_router_1.default);
         app.use('/api/post', post_router_1.default);
         app.use('/api/project', project_router_1.default);

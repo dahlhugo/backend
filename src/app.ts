@@ -34,6 +34,7 @@ async function main() {
 
 
     //add all routes
+    app.get('/', (req, res) => { res.send('Hello World!') });
     app.use('/api/user', userRouter);
     app.use('/api/post', postRouter);
     app.use('/api/project', projectRouter);
