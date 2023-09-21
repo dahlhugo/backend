@@ -1,0 +1,84 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  email String [unique, not null]
+  name String [not null]
+  profilePicture String
+  slogan String
+  projects Project [not null]
+  posts Post [not null]
+}
+
+Table Project {
+  id String [pk]
+  name String [not null]
+  publishDate DateTime [default: `now()`, not null]
+  yearCreated Int
+  course Course [not null]
+  courseId String [unique, not null]
+  author User [not null]
+  authorId String [unique, not null]
+  links String[] [not null]
+  image String
+  description String [not null]
+}
+
+Table Course {
+  id String [pk]
+  name String [not null]
+  courseCode String [not null]
+  description String [not null]
+  projects Project [not null]
+  courseLiterature CourseLiterature [not null]
+  exams Exam [not null]
+}
+
+Table CourseLiterature {
+  id String [pk]
+  name String [not null]
+  authors String[] [not null]
+  description String [not null]
+  course Course [not null]
+  courseId String [not null]
+}
+
+Table Exam {
+  id String [pk]
+  link String [not null]
+  date DateTime [not null]
+  course Course [not null]
+  courseId String [not null]
+}
+
+Table Post {
+  id String [pk]
+  author User [not null]
+  authorId String [not null]
+  text String [not null]
+  publishDate DateTime [default: `now()`, not null]
+  rating Int [not null, default: 0]
+  likes String[] [not null]
+}
+
+Table News {
+  id String [pk]
+  publishDate DateTime [default: `now()`, not null]
+  title String [not null]
+  text String [not null]
+  sources String[] [not null]
+  organizer String
+  image String
+}
+
+Ref: Project.courseId > Course.id
+
+Ref: Project.authorId > User.id
+
+Ref: CourseLiterature.courseId > Course.id
+
+Ref: Exam.courseId > Course.id
+
+Ref: Post.authorId > User.id

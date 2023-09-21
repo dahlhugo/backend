@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  email          String    @unique
+  name           String
+  profilePicture String?
+  slogan         String?
+  projects       Project[]
+  posts          Post[]
+}
+
+model Project {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  publishDate DateTime @default(now())
+  yearCreated Int?
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String   @unique @db.ObjectId
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String   @unique @db.ObjectId
+  links       String[]
+  image       String?
+  description String
+}
+
+model Course {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  courseCode       String
+  description      String
+  year             Int
+  period           String
+  projects         Project[]
+  courseLiterature CourseLiterature[]
+  exams            Exam[]
+}
+
+model CourseLiterature {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  authors     String[]
+  description String
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String   @db.ObjectId
+}
+
+model Exam {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  link     String
+  date     DateTime
+  course   Course   @relation(fields: [courseId], references: [id])
+  courseId String   @db.ObjectId
+}
+
+model Post {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String   @db.ObjectId
+  text        String
+  publishDate DateTime @default(now())
+  rating      Int      @default(0)
+  likes       String[] //contains user ids
+}
+
+model News {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  publishDate DateTime @default(now())
+  title       String
+  text        String
+  sources     String[]
+  organizer   String?
+  image       String?
+}
