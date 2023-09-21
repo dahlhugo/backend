@@ -16,8 +16,7 @@ import { auth } from 'express-oauth2-jwt-bearer';
 
 async function main() {
     const app = express();
-    const port = 3001;
-
+    const port = process.env.PORT || 8080
     //cors
     const allowedOrigins = ['http://localhost:3000'];
     const options: cors.CorsOptions = {

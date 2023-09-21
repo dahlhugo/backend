@@ -50,7 +50,7 @@ const express_oauth2_jwt_bearer_1 = require("express-oauth2-jwt-bearer");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
-        const port = 3001;
+        const port = process.env.PORT || 8080;
         //cors
         const allowedOrigins = ['http://localhost:3000'];
         const options = {
